@@ -26,6 +26,8 @@ datum
 		var/glass_name = null
 		var/glass_desc = null
 		var/glass_center_of_mass = null
+		var/temperature = T20C // for reactions, the holder's temperature is used, but when reagents are moved around, this is used
+		var/heat_capacity = 100 // J/u*K. heat_capacity joules heats 1 unit of the reagent by 1K.
 		//var/list/viruses = list()
 		var/color = "#000000" // rgb: 0, 0, 0 (does not support alpha channels - yet!)
 

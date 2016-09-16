@@ -15,6 +15,7 @@ datum
 		var/secondary = 0 // set to nonzero if secondary reaction
 		var/list/secondary_results = list()		//additional reagents produced by the reaction
 		var/requires_heating = 0
+		var/activation_temperature = T20C
 
 		proc
 			on_reaction(var/datum/reagents/holder, var/created_volume)

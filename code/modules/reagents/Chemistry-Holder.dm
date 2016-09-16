@@ -11,6 +11,7 @@ datum
 		var/total_volume = 0
 		var/maximum_volume = 100
 		var/atom/my_atom = null
+		var/temperature = T20C
 
 		New(maximum=100)
 			maximum_volume = maximum
@@ -295,6 +296,8 @@ datum
 
 							var/datum/chemical_reaction/C = reaction
 
+							// lol wtf is this casul shit
+							/*
 							//check if this recipe needs to be heated to mix
 							if(C.requires_heating)
 								if(istype(my_atom.loc, /obj/machinery/bunsen_burner))
@@ -302,6 +305,11 @@ datum
 										continue
 								else
 									continue
+							*/
+
+							// check if the holder has the required temperature for the reaction to take place
+							if(C.activation_temperature && (temperature < C.activation_temperature))
+								continue
 
 							var/total_required_reagents = C.required_reagents.len
 							var/total_matching_reagents = 0
@@ -361,7 +369,13 @@ datum
 										add_reagent(S, C.result_amount * C.secondary_results[S] * multiplier)
 
 								var/list/seen = viewers(4, get_turf(my_atom))
-								var/datum/reagent/product = reagent_list[C.result]
+
+								var/datum/reagent/product = null
+								for(var/datum/reagent/reg in reagent_list)
+									if(reg.id == C.result)
+										product = reg
+										break
+
 								switch(product.reagent_state)
 									if(3) // GAS
 										for(var/mob/M in seen)
@@ -434,6 +448,23 @@ datum
 						total_volume += R.volume
 
 				return 0
+
+			update_temperature(var/datum/reagent/new_reagent, var/amount = 0)
+				var/heat_capacity = get_heat_capacity()
+
+				// all thermal energy from the new reagent is transfered to the holder/solution as a whole
+				// delta T = (c(new) * m(new) * T) / (c(old) * m(old))
+				var/change = (new_reagent.heat_capacity * amount * new_reagent.temperature) / (heat_capacity * total_volume)
+				temperature += change
+
+				// update the temperature of all reagents inside the container
+
+				heat_capacity = get_heat_capacity()
+				// total energy
+				var/energy = heat_capacity * total_volume * temperature
+
+				for(var/datum/reagent/R in reagent_list)
+					R.temperature = energy / (R.heat_capacity * R.volume) // T = Q/cm
 
 			clear_reagents()
 				for(var/datum/reagent/R in reagent_list)
@@ -538,6 +569,11 @@ datum
 				else
 					warning("[my_atom] attempted to add a reagent called '[reagent]' which doesn't exist. ([usr])")
 
+				// update temperature of holder & all contained reagents
+				for(var/datum/reagent/R in reagent_list)
+					if(R.id == reagent)
+						update_temperature(R, amount)
+
 				if(!safety)
 					handle_reactions()
 
@@ -619,6 +655,18 @@ datum
 					if(D.id == reagent_id)
 						//world << "reagent data set ([reagent_id])"
 						D.data = new_data
+
+			// simply returns the average of the heat capacity of all the contained reagents
+			// probably not very realistic but close 'nuff
+			get_heat_capacity()
+				if(length(reagent_list) == 0)
+					return 0
+
+				var/total_capacity = 0
+				for(var/datum/reagent/D in reagent_list)
+					total_capacity += D.heat_capacity
+
+				return (total_capacity / length(reagent_list))
 
 			delete()
 				for(var/datum/reagent/R in reagent_list)
