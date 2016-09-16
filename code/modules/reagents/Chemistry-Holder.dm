@@ -361,21 +361,21 @@ datum
 										add_reagent(S, C.result_amount * C.secondary_results[S] * multiplier)
 
 								var/list/seen = viewers(4, get_turf(my_atom))
-								var/datum/reagent/product = reagents_list[C.result]
+								var/datum/reagent/product = reagent_list[C.result]
 								switch(product.reagent_state)
-									if(GAS)
+									if(3) // GAS
 										for(var/mob/M in seen)
 											M << "<span class='notice'>\icon[my_atom] The solution begins to bubble.</span>"
-									if(LIQUID)
+									if(2) // LIOUID
 										var/any_non_liquids = 0
-										for(var/datum/reagent/R in (reagents_list - product))
-											if(R.reagent_state != LIQUID)
+										for(var/datum/reagent/reag in (reagent_list - product))
+											if(reag.reagent_state != 2)
 												any_non_liquids = 1
 
 										if(any_non_liquids)
 											for(var/mob/M in seen)
 												M << "<span class='notice'>\icon[my_atom] Something starts to condensate.</span>"
-									if(SOLID)
+									if(1) // SOLID
 										for(var/mob/M in seen)
 											M << "<span class='notice'>\icon[my_atom] Something precipitates from the solution.</span>"
 
