@@ -123,6 +123,7 @@
 #include "code\controllers\Processes\nanoui.dm"
 #include "code\controllers\Processes\obj.dm"
 #include "code\controllers\Processes\overmap.dm"
+#include "code\controllers\Processes\reagents.dm"
 #include "code\controllers\Processes\serverjobs.dm"
 #include "code\controllers\Processes\Shuttle.dm"
 #include "code\controllers\Processes\sun.dm"

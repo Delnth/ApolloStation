@@ -1,5 +1,8 @@
 //This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:32
 
+// stefan-boltzmann
+#define SB_CONST 0.0000000567
+
 var/const/TOUCH = 1
 var/const/INGEST = 2
 
@@ -14,6 +17,8 @@ datum
 		var/temperature = T20C
 
 		New(maximum=100)
+			processing_reagents += src
+
 			maximum_volume = maximum
 
 			//I dislike having these here but map-objects are initialised before world/New() is called. >_>
@@ -48,6 +53,10 @@ datum
 							chemical_reactions_list[id] = list()
 						chemical_reactions_list[id] += D
 						break // Don't bother adding ourselves to other reagent ids, it is redundant.
+
+		Destroy()
+			processing_reagents -= src
+			..()
 
 		proc
 
@@ -703,6 +712,21 @@ datum
 
 				return trans_data
 
+			// deadly sin? maybe. perhaps. most likely.
+			process()
+				if(!length(reagent_list))
+					return
+
+				var/turf/T = get_turf(my_atom)
+				if(isnull(T) || T.temperature == temperature)
+					return
+
+				// thermal radiation
+				// - because we're giving off heat. maybe i'll put in the environments heating up reagent holder sooner
+				var/transfer = -( (temperature**4) * SB_CONST )
+				world << "FOCK [transfer]"
+				update_temperature(amount = transfer, type = "transfer")
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 
@@ -711,3 +735,5 @@ datum
 atom/proc/create_reagents(var/max_vol)
 	reagents = new/datum/reagents(max_vol)
 	reagents.my_atom = src
+
+#undef SB_CONST
