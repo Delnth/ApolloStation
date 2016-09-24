@@ -724,7 +724,6 @@ datum
 				// thermal radiation
 				// - because we're giving off heat. maybe i'll put in the environments heating up reagent holder sooner
 				var/transfer = -( (temperature**4) * SB_CONST )
-				world << "FOCK [transfer]"
 				update_temperature(amount = transfer, type = "transfer")
 
 ///////////////////////////////////////////////////////////////////////////////////
