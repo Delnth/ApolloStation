@@ -40,7 +40,8 @@
 		/obj/machinery/sleeper,
 		/obj/machinery/smartfridge/,
 		/obj/machinery/biogenerator,
-		/obj/machinery/constructable_frame
+		/obj/machinery/constructable_frame,
+		/obj/machinery/heating_chamber
 		)
 
 	New()

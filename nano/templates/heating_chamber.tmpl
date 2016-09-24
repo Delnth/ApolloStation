@@ -1,0 +1,95 @@
+<!-- 
+Title: Heating Chamber UI 
+Used In File(s): \code\modules\reagents\Chemistry-Machinery.dm
+ -->
+
+<div class="item">
+	<div class="itemLabel">
+		Power:
+	</div>
+	<div class="itemContent">
+		{{:helper.link('On', 'power', {'toggle' : 1}, data.heating ? 'selected' : null)}}{{:helper.link('Off', 'close', {'toggle' : 1}, data.heating ? null : 'selected')}}
+	</div>
+</div>
+
+<hr>
+
+<div class="item">
+	<div class="itemLabel">
+		Current Temperature:
+	</div>
+	<div class="itemContent">
+		{{:helper.displayBar(data.temperature, 0, data.targetTemp, 'good', data.temperature + 'K / ' + data.targetTemp + 'K')}}
+	</div>
+</div>
+
+<h3>Heating Controls</h3>
+
+<div class="item">
+	<div class="itemLabel">
+		Target Temperature:
+	</div>
+	<div class="itemContent">
+		<div style="clear: both; padding-top: 4px;">
+			{{:helper.link('-', null, {'temp_adj' : -1000}, (data.targetTemp > data.minTemp) ? null : 'disabled')}}
+			{{:helper.link('-', null, {'temp_adj' : -100}, (data.targetTemp > data.minTemp) ? null : 'disabled')}}
+			{{:helper.link('-', null, {'temp_adj' : -10}, (data.targetTemp > data.minTemp) ? null : 'disabled')}}
+			{{:helper.link('-', null, {'temp_adj' : -1}, (data.targetTemp > data.minTemp) ? null : 'disabled')}}
+			<div style="float: left; width: 80px; text-align: center;">&nbsp;{{:data.targetTemp}}K&nbsp;</div>
+			{{:helper.link('+', null, {'temp_adj' : 1}, (data.targetTemp < data.maxTemp) ? null : 'disabled')}}
+			{{:helper.link('+', null, {'temp_adj' : 10}, (data.targetTemp < data.maxTemp) ? null : 'disabled')}}
+			{{:helper.link('+', null, {'temp_adj' : 100}, (data.targetTemp < data.maxTemp) ? null : 'disabled')}}
+			{{:helper.link('+', null, {'temp_adj' : 1000}, (data.targetTemp < data.maxTemp) ? null : 'disabled')}}
+		</div>
+	</div>
+</div>
+
+<div class="item">
+	<div class="itemLabel">
+		Heat Transfer:
+	</div>
+	<div class="itemContent">
+		<div style="clear: both; padding-top: 4px;">
+			{{:helper.link('-', null, {'heat_adj' : -1000}, (data.heatAmount > data.minHeat) ? null : 'disabled')}}
+			{{:helper.link('-', null, {'heat_adj' : -100}, (data.heatAmount > data.minHeat) ? null : 'disabled')}}
+			{{:helper.link('-', null, {'heat_adj' : -10}, (data.heatAmount > data.minHeat) ? null : 'disabled')}}
+			{{:helper.link('-', null, {'heat_adj' : -1}, (data.heatAmount > data.minHeat) ? null : 'disabled')}}
+			<div style="float: left; width: 80px; text-align: center;">&nbsp;{{:data.heatAmount}}kJ&nbsp;</div>
+			{{:helper.link('+', null, {'heat_adj' : 1}, (data.heatAmount < data.maxHeat) ? null : 'disabled')}}
+			{{:helper.link('+', null, {'heat_adj' : 10}, (data.heatAmount < data.maxHeat) ? null : 'disabled')}}
+			{{:helper.link('+', null, {'heat_adj' : 100}, (data.heatAmount < data.maxHeat) ? null : 'disabled')}}
+			{{:helper.link('+', null, {'heat_adj' : 1000}, (data.heatAmount < data.maxHeat) ? null : 'disabled')}}
+		</div>
+	</div>
+</div>
+
+<div class="item">&nbsp;</div>
+<div class="item">
+	<div class="itemLabel">
+		Beaker Properties
+	</div>
+	<div class="itemContent">
+		{{:helper.link('Eject Beaker', 'eject', {'eject_beaker' : 1}, data.hasBeaker ? null : 'disabled', 'floatRight')}}
+	</div>
+</div>
+<div class="statusDisplay" style="min-height: 180px;">
+	<div class="item">
+		<div class="itemContent" style="width: 100%;">
+			{{if data.hasBeaker}}
+				<b>Heat Capacity:&nbsp;{{:data.heatCapacity}}J/u*K</b><br>
+				<b>Volume:&nbsp;{{:data.beakerCurrentVolume}}&nbsp;/&nbsp;{{:data.beakerMaxVolume}}</b><br>
+				{{for data.beakerContents}}
+					<span class="highlight">{{:value.volume}} units of {{:value.name}}</span><br>
+				{{empty}}
+					<span class="bad">
+						Beaker is empty
+					</span>
+				{{/for}}
+			{{else}}
+				<span class="average"><i>
+					No beaker loaded!
+				</i></span>
+			{{/if}}
+		</div>
+	</div>
+</div>

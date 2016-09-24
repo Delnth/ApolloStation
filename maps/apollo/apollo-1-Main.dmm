@@ -5774,7 +5774,7 @@
 "chb" = (/turf/simulated/floor/carpet,/area/hallway/primary/aft_starboard)
 "chc" = (/obj/machinery/light{dir = 4},/obj/structure/bed/chair{dir = 8},/turf/simulated/floor{icon_state = "dark"},/area/hallway/primary/aft_starboard)
 "chd" = (/obj/structure/disposalpipe/segment,/obj/machinery/door_control{id = "chemcounterw"; name = "Pharmacy Counter Lockdown Control"; pixel_x = -28; pixel_y = 0},/turf/simulated/floor{tag = "icon-whiteblue (WEST)"; icon_state = "whiteblue"; dir = 8},/area/medical/chemistry)
-"che" = (/obj/machinery/hologram/holopad,/turf/simulated/floor{icon_state = "white"},/area/medical/chemistry)
+"che" = (/obj/machinery/hologram/holopad,/obj/machinery/heating_chamber,/turf/simulated/floor{icon_state = "white"},/area/medical/chemistry)
 "chf" = (/obj/structure/table/glass,/obj/item/weapon/reagent_containers/glass/beaker/large,/obj/item/weapon/reagent_containers/glass/beaker/large,/obj/item/weapon/reagent_containers/glass/beaker/large,/obj/item/weapon/reagent_containers/dropper,/obj/item/weapon/reagent_containers/dropper,/turf/simulated/floor{icon_state = "white"},/area/medical/chemistry)
 "chg" = (/obj/structure/cable/green{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor{icon_state = "white"},/area/medical/chemistry)
 "chh" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 1},/obj/structure/window/reinforced{dir = 4},/obj/machinery/door/firedoor,/turf/simulated/floor/plating,/area/medical/chemistry)

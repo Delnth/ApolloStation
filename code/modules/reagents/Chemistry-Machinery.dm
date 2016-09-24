@@ -1244,3 +1244,126 @@ obj/machinery/chem_dispenser/RefreshParts()
 		O.reagents.trans_to(beaker, amount)
 		if(!O.reagents.total_volume)
 			remove_object(O)
+
+/obj/machinery/heating_chamber
+	name = "heating chamber"
+	desc = "A heating chamber. After years of heated debate, scientists have concluded that this device is pretty useful."
+	density = 1
+	anchored = 1
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "mixer0b"
+	req_access = list(access_chemistry)
+	use_power = 1
+	idle_power_usage = 20
+
+	var/heating = 0
+	var/target_temperature = T20C
+	var/desired_heat = 100 // joules/tick
+	var/atom/beaker = null
+
+	var/datum/browser/menu
+
+/obj/machinery/heating_chamber/attackby(var/obj/item/B as obj, var/mob/user as mob)
+	if(isrobot(user))
+		return
+	if(src.beaker)
+		user << "Something is already loaded into the machine."
+		return
+	if(istype(B, /obj/item/weapon/reagent_containers/glass))
+		src.beaker =  B
+		user.drop_item()
+		B.loc = src
+		user << "You place [B] in the heating chamber."
+		icon_state = "mixer1b"
+
+		nanomanager.update_uis(src)
+		return
+
+/obj/machinery/heating_chamber/attack_hand(mob/user as mob)
+	ui_interact(user)
+
+/obj/machinery/heating_chamber/process()
+	if(!heating)
+		return
+	if(!beaker)
+		return
+	if(length(beaker.reagents.reagent_list) == 0)
+		return
+
+	var/temperature = beaker.reagents.temperature
+	var/heat_transfer = (temperature < target_temperature ? desired_heat : 0)
+
+	beaker.reagents.update_temperature(amount = (heat_transfer * 1000), type = "transfer")
+	use_power(heat_transfer * 1.2) // pretty efficient tbh
+	nanomanager.update_uis(src)
+
+/obj/machinery/heating_chamber/ui_interact(mob/user, ui_key = "main",var/datum/nanoui/ui = null, var/force_open = 1)
+	if(stat & (BROKEN|NOPOWER)) return
+	if(user.stat || user.restrained()) return
+
+	var/list/data = new()
+
+	data["heating"] = heating
+	data["targetTemp"] = round(target_temperature)
+	data["heatAmount"] = desired_heat
+
+	var/has_beaker = !isnull(beaker)
+
+	data["hasBeaker"] = has_beaker
+	data["temperature"] = 0
+	if(has_beaker)
+		data["temperature"] = round(beaker.reagents.temperature)
+
+	var/list/beaker_contents = new()
+	var/beaker_volume = 0
+	if(beaker && beaker:reagents && beaker:reagents.reagent_list.len)
+		for(var/datum/reagent/R in beaker:reagents.reagent_list)
+			beaker_contents.Add(list(list("name" = R.name, "volume" = R.volume, "temperature" = R.temperature)))
+			beaker_volume += R.volume
+	data["beakerContents"] = beaker_contents
+	data["heatCapacity"] = beaker.reagents.get_heat_capacity()
+
+	if(has_beaker)
+		data["beakerCurrentVolume"] = beaker_volume
+		data["beakerMaxVolume"] = beaker:volume
+	else
+		data["beakerCurrentVolume"] = null
+		data["beakerMaxVolume"] = null
+
+	data["minTemp"] = 1
+	data["maxTemp"] = 1000
+	data["minHeat"] = 1
+	data["maxHeat"] = 1000
+
+	// update the ui if it exists, returns null if no ui is passed/found
+	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
+	if (!ui)
+		// the ui does not exist, so we'll create a new() one
+		// for a list of parameters and their descriptions see the code docs in \code\modules\nano\nanoui.dm
+		ui = new(user, src, ui_key, "heating_chamber.tmpl", "Heating Chamber", 470, 472)
+		// when the ui is first opened this is the data it will use
+		ui.set_initial_data(data)
+		// open the new ui window
+		ui.open()
+
+/obj/machinery/heating_chamber/Topic(href, href_list)
+	if(stat & (NOPOWER|BROKEN))
+		return 0
+
+	if(href_list["toggle"] && !isnull(beaker))
+		heating = !heating
+
+	if(href_list["temp_adj"])
+		target_temperature = min(max(target_temperature + text2num(href_list["temp_adj"]), 1), 1000)
+
+	if(href_list["heat_adj"])
+		desired_heat = min(max(desired_heat + text2num(href_list["heat_adj"]), 1), 5000)
+
+	if(href_list["eject_beaker"] && beaker)
+		var/obj/item/weapon/reagent_containers/B = beaker
+		B.loc = loc
+		beaker = null
+		icon_state = "mixer0b"
+
+	add_fingerprint(usr)
+	return 1

@@ -449,22 +449,32 @@ datum
 
 				return 0
 
-			update_temperature(var/datum/reagent/new_reagent, var/amount = 0)
+			update_temperature(var/datum/reagent/new_reagent, var/amount = 0, var/type = "reagent")
 				var/heat_capacity = get_heat_capacity()
+				
+				var/change = 0
+				switch(type)
+					if("reagent") // reagent transfer
+						// difference in thermal energy from the new reagent is transfered to the holder/solution as a whole
+						// delta T = (c(new) * m(new) * T) / (c(old) * m(old))
+						change = (new_reagent.heat_capacity * amount * (new_reagent.temperature - temperature)) / (heat_capacity * total_volume)
 
-				// all thermal energy from the new reagent is transfered to the holder/solution as a whole
-				// delta T = (c(new) * m(new) * T) / (c(old) * m(old))
-				var/change = (new_reagent.heat_capacity * amount * new_reagent.temperature) / (heat_capacity * total_volume)
+					if("transfer") // heat transfer
+						// delta T = Q/cm
+						change = amount / (heat_capacity * total_volume)
 				temperature += change
 
 				// update the temperature of all reagents inside the container
 
 				heat_capacity = get_heat_capacity()
-				// total energy
-				var/energy = heat_capacity * total_volume * temperature
+				var/total_energy = heat_capacity * total_volume * temperature
 
 				for(var/datum/reagent/R in reagent_list)
+					var/energy = total_energy * (R.volume / total_volume)
 					R.temperature = energy / (R.heat_capacity * R.volume) // T = Q/cm
+
+				// the temperature may have gotten high enough to trigger a reaction
+				handle_reactions()
 
 			clear_reagents()
 				for(var/datum/reagent/R in reagent_list)
