@@ -1,28 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-			<h2 class="date">14 October 2016</h2>
-			<h3 class="author">Cakey updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="maptweak">Central command has been overhauled to be prettier</li>
-				<li class="maptweak">Medical and Science departments have swapped locations on the main station</li>
-				<li class="maptweak">Carpspawn locations have been modified</li>
-				<li class="maptweak">The NSS Artemis has been updated for if we ever decide to use it (tinystation, lowpop maybe?)</li>
-				<li class="rscadd">Added space pike, a larger version of space carp</li>
-				<li class="rscadd">Added a new type of giant spider that only spawns very rarely</li>
-				<li class="rscadd">Adds the pizza shuttle and merchant shuttle</li>
-				<li class="rscadd">Inductee titles now available for each department</li>
-				<li class="rscadd">the alternate title 'Commander' is now available for HoS</li>
-				<li class="rscadd">Level 5 biohazards now spawn either space vines or biomasses</li>
-				<li class="tweak">Tokamak engine parts crate from cargo has been changed to be 1/4 the price and contain 1/4 the parts</li>
-				<li class="tweak">Space Carp now have a new sprite</li>
-				<li class="tweak">Areacode has been moved to localised folders</li>
-				<li class="tweak">Maps have been moved into localised folders</li>
-				<li class="tweak">NanoUI map for medical tracker has been updated</li>
-				<li class="tweak">Survival map has been updated</li>
-				<li class="tweak">Any head of staff can now change code level to blue</li>
-				<li class="tweak">You can now use drills on the moon</li>
-				<li class="tweak">Changed asteroid generation count from 3-6 to 1-2</li>
-				<li class="rscdel">Removed the NMV Slater (For now)</li>
-				<li class="rscdel">Removed the engineering outpost (For now)</li>
-				<li class="bugfix">Spiderbots no longer infitely gib</li>
-				<li class="rscadd">Added the changelog!</li>
-			</ul>
+<html>
+<head>
+	<title>Apollo Station Changelog</title>
+	<link rel="stylesheet" type="text/css" href="changelog.css">
+	<base target="_blank"/>
+
+	<script type="text/javascript" src="csi.min.js"></script>
+	<script type="text/javascript" src="changelog.js"></script>
+	<script type='text/javascript'>
+	
+		function changeText(tagID, newText, linkTagID){
+			var tag = document.getElementById(tagID);
+			tag.innerHTML = newText;
+			var linkTag = document.getElementById(linkTagID);
+			linkTag.removeAttribute("href");
+			linkTag.removeAttribute("onclick");
+		}
+
+	</script>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+	<link href="space-parallax.css" rel="stylesheet" type="text/css">
+    <div id='stars'></div><div id='stars2'></div><div id='stars3'></div>
+
+    <div id="container">
+		<h2 id="timelinetitle">Apollo Station Changelog</h2>
+		<div style="width:26em;height:1px;background-color:white;">&nbsp;</div>	
+
+		<!--
+
+		TO ADD AN ENTRY, ADD AND MAINTAIN YOUR OWN changelog/USERNAME.yml FILE.
+
+		*** DO NOT MODIFY THIS FILE. ***
+
+		-->
+
+		<ul id="timeline">
+			<div data-include="raw_log.html"></div>
+		</ul>
+		
+	</div>
+
+	<p class="lic">Changelog icons by <a href="http://p.yusukekamiyamane.com/">Yusuke Kamiyamane</a>. All rights reserved. Licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>.</p>
+</body>
+</html>

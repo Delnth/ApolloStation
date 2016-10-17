@@ -1,61 +1,7 @@
-.bugfix {background-image:url(icons/bug--minus.png)}
-.wip {background-image:url(icons/hard-hat-exclamation.png)}
-.tweak {background-image:url(icons/wrench-screwdriver.png)}
-.soundadd {background-image:url(icons/music-plus.png)}
-.sounddel {background-image:url(icons/music-minus.png)}
-.rscdel {background-image:url(icons/cross-circle.png)}
-.rscadd {background-image:url(icons/tick-circle.png)}
-.imageadd {background-image:url(icons/image-plus.png)}
-.imagedel {background-image:url(icons/image-minus.png)}
-.spellcheck {background-image:url(icons/spell-check.png)}
-.experiment {background-image:url(icons/burn-exclamation.png)}
-.maptweak {background-image:url(icons/map--pencil.png)}
-
-.bgimages16 li {
-    padding: 0px 0px 1px 30px;
-    margin: 2px 0px 0px -40px;
-    background-position: 3px left;
-    background-repeat: no-repeat;
-    list-style-type: none;
-}
-
-#container {
-    position: absolute;
-    display: block;
-
-    top: 0;
-    left: 3em;
-    right: 3em;
-
-    text-align: left;
-
-    color: white;
-    font-family: sans-serif;
-    font-weight: 300;
-}
-
-.changes {
-    font-size: 100%;
-}
-
-.lic {
-    position: absolute;
-    display: block;
-    text-align: bottom;
-    bottom: 0;
-    left: 3em;
-    font-size: 9px;
-
-    font-family: sans-serif;
-    font-weight: 300;
-    color: white;
-}
-.lic a {
-    color: orange;
-}
-
-/* TIMELINE STUFF BELOW */
-
+/* -------------------------------------
+ *  * For horizontal version, set the
+ *   * $vertical variable to false
+ *    * ------------------------------------- */
 /* -------------------------------------
  *  * General Style
  *   * ------------------------------------- */
@@ -67,13 +13,10 @@ body {
   font-size: 100%; }
 
 h2 {
+  margin: 3em 0 0 0;
   font-size: 1.5em;
   letter-spacing: 2px;
   text-transform: uppercase; }
-
-#timelinetitle {
-    margin: 3em 0 0 0;
-}
 
 /* -------------------------------------
  *  * timeline
@@ -111,9 +54,11 @@ h2 {
   position: absolute; }
 
 .content {
-  top: 7.5em;
-  padding-left: 20%;
+  top: 8.5%;
+  left: 30%;
+  max-height: 20px;
   max-width: 70%;
+  padding: 50px 20px 0;
   opacity: 0;
   position: fixed; }
 .content .title {

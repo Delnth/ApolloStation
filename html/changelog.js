@@ -1,4 +1,4 @@
-/*
+
 function dropdowns() {
     var divs = document.getElementsByTagName('div');
     var headers = new Array();
@@ -31,8 +31,7 @@ function dropdowns() {
         }
     }
 }
-*/
-/*
+
 function filterchanges(type){
 	var lists = document.getElementsByTagName('ul');
 	for(var i in lists){
@@ -53,7 +52,7 @@ function filterchanges(type){
 		}
 	}
 }
-*/
+
 function dropdowns() {
     var drops = $('div.drop');
 	var indrops = $('div.indrop');
