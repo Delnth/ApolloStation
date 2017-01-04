@@ -33,10 +33,14 @@
 	sort_category = "misc"
 /////End Medal
 
-////////////////////////////////// Greatmoon /////////////////////////////////////////////////
+////////////////////////////////// Koenigsegg /////////////////////////////////////////////////
 
-// Need to add in this stupid holder because Delta will spawn in the bag...
-// Besides this holder getting created on round start, Delta can't be picked up normally
+// Noot Noot Racecar test
+/datum/gear/account/delta
+	display_name = "Delta"
+	path = /mob/living/simple_animal/dog/german_shep/fluff/delta
+	sort_category = "misc"
+
 /obj/item/weapon/holder/delta
 	name = "Delta"
 	desc = "This is Delta the dog."
@@ -65,7 +69,7 @@
 	..()
 	for( var/mob/living/carbon/human/M in living_mob_list )
 		if (M.mind)
-			if (M.mind.key == "Greatmoon")
+			if (M.mind.key == "Koenigsegg")
 				bff = M
 				break
 
